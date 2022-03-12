@@ -5,7 +5,7 @@ SvelteKit app styled with Tailwind for deployment to Cloudflare pages
 ## Local
 
 ```bash
-npm init
+npm install
 npm run dev # or
 wrangler pages dev -- npm run dev # or
 npm run preview
