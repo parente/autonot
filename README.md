@@ -1,25 +1,9 @@
-# sveltekit-tailwind-pages
+# autonot
 
-SvelteKit app styled with Tailwind for deployment to Cloudflare pages
+Short for "automate or not", this web app is:
 
-## Local
+- A calculator based on [xkcd #1205](https://xkcd.com/1205/)
+- An excuse to learn some SvelteKit, Tailwind, and Cloudflare Pages
 
-```bash
-npm install
-npm run dev # or
-wrangler pages dev -- npm run dev # or
-npm run preview
-```
-
-## Pages Setup
-
-Must be done with click ops on the Cloudflare dashboard
-
-- Create a Pages project
-- Choose the GitHub repository
-- Choose SvelteKit as the app framework
-- Enable fast builds
-- Set `NODE_VERSION=16` as a build environment variable
-- Enable preview branch protection with Cloudflare Access
-- Optionally configure production branch protection with Cloudflare Access
-- Optionally configure Cloudflare KV and Durable objects
+The source code here is [MIT licensed](./LICENSE.md). The xkcd web comic is a work by Randall Monroe
+[under a Creative Commons Attribution-NonCommercial 2.5 License](https://xkcd.com/license.html).
