@@ -19,6 +19,9 @@
     {value: 31536000, singular: "year", plural: "years"},
 	];
 
+  /** Looks up the label associated with `unitValue` and returns the singular or plural form based
+   * on `value`.
+   */
   function unitValueToLabel(value: string, unitValue: number): string {
     for(let i=0; i < units.length; i++) {
       if(units[i].value === unitValue) {
@@ -28,6 +31,7 @@
     throw new Error("unexpected unit value");
   }
 
+  /** Looks up the value in seconds associated with the given singular or plural `label`. **/
   function unitLabelToValue(label: string) {
     for(let i=0; i < units.length; i++) {
       if(units[i].singular === label || units[i].plural === label) {
@@ -39,11 +43,14 @@
 
   const secondsPerLifetime = lifetime * unitLabelToValue(lifetimeUnit);
 
-  /* 
+  /**
+   * Reacts to a change in any form value by computing the optimization investment allowed in order
+   * to break even in `secondsPerLifetime`.
+   *  
    * tasks         | secondsPerLifetime | savings | savingsUnit |
    * ------------- | ------------------ | ------- | ------------|
    * frqeuencyUnit |                    | 1 task  |             |
-   */
+   **/
   $: {
     const limit = Number(tasks) / frequencyUnit * secondsPerLifetime * Number(savings) * savingsUnit;
     // Invalid value in one of the fields
@@ -67,6 +74,8 @@
   }
 </script>
 
+<!-- Lots of duplication of styles here which components would solve. I'm doing this as a weekend
+  project that I don't intend to update so whatever.-->
 <div class="h-screen min-h-screen
   flex flex-col 
   justify-center 
@@ -137,4 +146,3 @@
     <a href="https://github.com/parente/autonot">Source on GitHub</a>
   </div>
 </div>
-
