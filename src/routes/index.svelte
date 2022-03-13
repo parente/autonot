@@ -72,8 +72,7 @@
   justify-center 
   overflow-hidden
   bg-gradient-to-br from-chrome-800 to-chrome-700">
-  <div class="prose
-    mx-auto
+  <div class="prose prose-headings:font-medium
     leading-8
     w-11/12
     mx-auto 
