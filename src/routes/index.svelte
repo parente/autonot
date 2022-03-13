@@ -74,7 +74,9 @@
   bg-gradient-to-br from-chrome-800 to-chrome-700">
   <div class="prose
     mx-auto
+    leading-8
     w-11/12
+    mx-auto 
     px-8 py-8 
     rounded 
     bg-chrome-50
@@ -127,4 +129,13 @@
     
     <p>Should we invest our time?</p>
   </div>
+  <div class="prose prose-a:text-chrome-300 
+    mx-auto mt-5
+    px-8 py-2 
+    rounded 
+    text-chrome-100 text-xs
+    bg-chrome-50/10">
+    <a href="https://github.com/parente/autonot">Source on GitHub</a>
+  </div>
 </div>
+
