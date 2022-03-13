@@ -143,6 +143,6 @@
     rounded 
     text-chrome-100 text-xs
     bg-chrome-50/10">
-    <a href="https://github.com/parente/autonot">Source on GitHub</a>
+    <a href="https://github.com/parente/autonot">Source and attribution on GitHub</a>
   </div>
 </div>
