@@ -14,7 +14,7 @@
   const lifetimeUnit: string = "years";
 
   let investment: string;
-  let investmentUnit: string;
+  let investmentUnit: number = unitLabelToValue("hour");;
 
   const secondsPerLifetime = lifetime * unitLabelToValue(lifetimeUnit);
 
@@ -40,7 +40,7 @@
           } else {
             // Use the largest unit that results in a value > 1
             investment = (limit / units[i-1].value).toFixed(1);
-            investmentUnit = (investment === "1") ? units[i-1].singular : units[i-1].plural;
+            investmentUnit = units[i-1].value;
           }
           break;
         }
@@ -54,7 +54,8 @@
         savingsUnit: savingsUnit,
         savingsUnitLabel: unitValueToLabel(savings, savingsUnit),
         investment: investment,
-        investmentUnitLabel: investmentUnit, // TODO: fix inconsistency
+        investmentUnit: investmentUnit,
+        investmentUnitLabel: unitValueToLabel(investment, investmentUnit),
       });
     }
   }
@@ -104,14 +105,15 @@
       {#each units as unit}
         <option value={unit.value} selected={savingsUnit === unit.value}>{savings === "1" ? unit.singular : unit.plural}</option>
       {/each}
-    </select> each time we perform this task if we invest time into optimizing it.
+    </select> each time we perform this task if we invest time in optimizing it.
   </p>
 
   <p>If we want to recoup our investment by saving <span class="underline decoration-2
-  decoration-emerald-300">{isNaN(Number(savings)) ? "???" : savings || "???"} {unitValueToLabel(savings,
-  savingsUnit)}</span> per task over <span class="underline decoration-2
+  decoration-emerald-300">{isNaN(Number(savings)) ? "???" : savings || "???"}
+  {unitValueToLabel(savings, savingsUnit)}</span> per task over <span class="underline decoration-2
   decoration-chrome-300">{lifetime} {lifetimeUnit}</span>, we can spend no more than <strong
-  class="underline decoration-2 decoration-rose-300">{investment ? investment : '???'} {investmentUnit}</strong>
+  class="underline decoration-2 decoration-rose-300">{investment ? investment : '???'}
+  {unitValueToLabel(investment, investmentUnit)}</strong>
   performing the optimization.</p>
   
   <p>Should we invest our time?</p>

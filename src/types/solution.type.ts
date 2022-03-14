@@ -6,5 +6,6 @@ export type SolutionType = {
   savingsUnit: number
   savingsUnitLabel: string
   investment: string
+  investmentUnit: number
   investmentUnitLabel: string
 }
