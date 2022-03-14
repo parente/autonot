@@ -129,7 +129,7 @@
     </p>
 
     <p>If we want to recoup our investment by saving <span class="underline decoration-2
-    decoration-emerald-300">{savings} {unitValueToLabel(savings,
+    decoration-emerald-300">{isNaN(Number(savings)) ? "???" : savings || "???"} {unitValueToLabel(savings,
     savingsUnit)}</span> per task over <span class="underline decoration-2
     decoration-chrome-300">{lifetime} {lifetimeUnit}</span>, we can spend no more than <strong
     class="underline decoration-2 decoration-rose-300">{investment} {investmentUnit}</strong>
