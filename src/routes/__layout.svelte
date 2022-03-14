@@ -2,6 +2,10 @@
   import '../app.css';
 </script>
 
+<svelte:head>
+  <title>Is it worth the time?</title>
+</svelte:head>
+
 <main class="h-screen min-h-screen
   flex flex-col 
   justify-center 
