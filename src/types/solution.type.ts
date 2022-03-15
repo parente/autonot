@@ -8,4 +8,7 @@ export type SolutionType = {
   investment: string
   investmentUnit: number
   investmentUnitLabel: string
+  lifetime: string
+  lifetimeUnit: number
+  lifetimeUnitLabel: string
 }
