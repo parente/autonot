@@ -33,7 +33,8 @@
         if((i === units.length) || (units[i].value > limit)) {
           if(i === 0) {
             // Less than a second savings
-            investment = null;
+            investment = "1.0";
+            investmentUnit = 1;
           } else {
             // Use the largest unit that results in a value > 1
             investment = (limit / units[i-1].value).toFixed(1);

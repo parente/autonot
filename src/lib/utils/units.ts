@@ -15,7 +15,7 @@ export const units = [
 export function unitValueToLabel(value: string, unitValue: number): string {
   for(let i=0; i < units.length; i++) {
     if(units[i].value === unitValue) {
-      return (value === "1") ? units[i].singular : units[i].plural;
+      return (value === "1" || value === "1.0") ? units[i].singular : units[i].plural;
     }
   }
   throw new Error("unexpected unit value");
