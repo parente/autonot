@@ -26,7 +26,7 @@
   $: {
     const limit = Number(tasks) / frequencyUnit * Number(lifetime) * lifetimeUnit * Number(savings) * savingsUnit;
     // Invalid value in one of the fields
-    if(isNaN(limit)) {
+    if(isNaN(limit) || !limit) {
       investment = null;
     } else {
       for(let i=0; i <= units.length; i++) {
