@@ -6,6 +6,7 @@
 </script>
 
 <Calculator on:solve={(event) => {updateBreadcrumb(event.detail)}}
+  taskText={$page.params.taskText}
   tasks={$page.params.tasks} 
   frequencyUnit={unitLabelToValue($page.params.frequencyUnitLabel)}
   savings={$page.params.savings}

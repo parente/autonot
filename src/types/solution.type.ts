@@ -1,4 +1,5 @@
 export type SolutionType = {
+  taskText: string
   tasks: string
   frequencyUnit: number
   frequencyUnitLabel: string

@@ -5,6 +5,7 @@
 
   const dispatch = createEventDispatcher();
 
+  export let taskText: string = "perform a routine task";
   export let tasks: string = "1";
   export let frequencyUnit: number = unitLabelToValue("week");
   export let savings: string = "30";
@@ -45,6 +46,7 @@
       }
 
       dispatch('solve', <SolutionType>{
+        taskText: taskText,
         tasks: tasks,
         frequencyUnit: frequencyUnit,
         frequencyUnitLabel: unitValueToLabel("1", frequencyUnit),
@@ -75,7 +77,13 @@
   <small>A calculator based on <a href="https://xkcd.com/1205/">xkcd #1205</a></small>
 
   <p>
-    We perform a routine task 
+    We 
+    <span bind:innerHTML={taskText} contenteditable="true" class="inline-block
+      leading-6 
+      bg-transparent
+      border-0 border-b-2 border-gray-300
+      outline outline-0 focus:border-gray-500
+      px-0 py-0"></span>
     <input type="text" bind:value={tasks} required autofocus class="form-input 
       w-16
       bg-transparent
@@ -116,19 +124,19 @@
     <input type="text" bind:value={lifetime} required class="form-input 
       w-16
       bg-transparent
-      border-0 border-b-2 border-chrome-300
-      focus:ring-0 focus:border-chrome-500
+      border-0 border-b-2 border-purple-300
+      focus:ring-0 focus:border-purple-500
       px-3 py-0" />
     <select bind:value={lifetimeUnit} class="form-select
       w-28
       bg-transparent
-      border-0 border-b-2 border-chrome-300
-      focus:ring-0 focus:border-chrome-500
+      border-0 border-b-2 border-purple-300
+      focus:ring-0 focus:border-purple-500
       px-3 py-0">
       {#each units as unit}
         <option value={unit.value} selected={lifetimeUnit === unit.value}>{lifetime === "1" ? unit.singular : unit.plural}</option>
       {/each}
-    </select> through time saved performing the task.
+    </select>.
   </p>
 
   <p>To fulfill these criteria, we can spend no more than <strong
