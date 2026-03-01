@@ -44,6 +44,7 @@ export default tseslint.config(
   {
     files: ['src/lib/utils/breadcrumb.ts'],
     rules: {
+      // Breadcrumb navigation uses a dynamic URL assembled from user inputs rather than a static route id.
       'svelte/no-navigation-without-resolve': 'off',
     },
   }
