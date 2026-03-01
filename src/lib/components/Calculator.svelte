@@ -31,11 +31,11 @@
     tasks = $bindable('1'),
     frequencyUnit = $bindable(unitLabelToValue('week')),
     savings = $bindable('30'),
-    savingsUnit = $bindable(unitLabelToValue('second')),
-    lifetime = $bindable('5'),
+    savingsUnit = $bindable(unitLabelToValue('minute')),
+    lifetime = $bindable('1'),
     lifetimeUnit = $bindable(unitLabelToValue('year')),
-    costRateUsd = $bindable('100000'),
-    costRateUnit = $bindable(unitLabelToValue('year')),
+    costRateUsd = $bindable('70'),
+    costRateUnit = $bindable(unitLabelToValue('hour')),
     savingsRateUsd = $bindable('25000'),
     savingsRateUnit = $bindable(unitLabelToValue('year')),
   }: Props = $props();
@@ -254,7 +254,7 @@
         bind:value={savingsRateUsd}
         required
         class="form-input
-      w-28
+      w-24
       bg-transparent
       border-0 border-b-2 border-emerald-300
       focus:ring-0 focus:border-emerald-500
@@ -282,7 +282,7 @@
         bind:value={costRateUsd}
         required
         class="form-input
-      w-28
+      w-16
       bg-transparent
       border-0 border-b-2 border-sky-300
       focus:ring-0 focus:border-sky-500
