@@ -9,3 +9,8 @@ The source code here is [MIT licensed](./LICENSE.md). The xkcd web comic is a wo
 under a [Creative Commons Attribution-NonCommercial 2.5 License](https://xkcd.com/license.html). The
 favicon is from [Twemoji](https://twemoji.twitter.com/) by Twitter under a [Creative Commons
 Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+
+## Deployment
+
+This app uses the SvelteKit Cloudflare adapter (`@sveltejs/adapter-cloudflare`) and includes a
+[`wrangler.toml`](./wrangler.toml) with an explicit compatibility date.
