@@ -1,19 +1,17 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import { units, unitLabelToValue, unitValueToLabel } from '$lib/utils/units';
-  import type { SolutionType } from "$types/solution.type";
+  import type { SolutionType } from '$types/solution.type';
 
-  const dispatch = createEventDispatcher();
-
-  export let tasks: string = "1";
-  export let frequencyUnit: number = unitLabelToValue("week");
-  export let savings: string = "30";
-  export let savingsUnit: number = unitLabelToValue("second");
-  export let lifetime: string = "5";
-  export let lifetimeUnit: number = unitLabelToValue("year");
+  export let onSolve: (solution: SolutionType) => void = () => {};
+  export let tasks: string = '1';
+  export let frequencyUnit: number = unitLabelToValue('week');
+  export let savings: string = '30';
+  export let savingsUnit: number = unitLabelToValue('second');
+  export let lifetime: string = '5';
+  export let lifetimeUnit: number = unitLabelToValue('year');
 
   let investment: string;
-  let investmentUnit: number = unitLabelToValue("hour");;
+  let investmentUnit: number = unitLabelToValue('hour');
 
   /**
    * Reacts to a change in any form value by computing the optimization investment allowed in order
@@ -44,10 +42,10 @@
         }
       }
 
-      dispatch('solve', <SolutionType>{
+      onSolve({
         tasks: tasks,
         frequencyUnit: frequencyUnit,
-        frequencyUnitLabel: unitValueToLabel("1", frequencyUnit),
+        frequencyUnitLabel: unitValueToLabel('1', frequencyUnit),
         savings: savings,
         savingsUnit: savingsUnit,
         savingsUnitLabel: unitValueToLabel(savings, savingsUnit),
