@@ -5,25 +5,46 @@ import prettier from 'eslint-config-prettier';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-	js.configs.recommended,
-	...tseslint.configs.recommended,
-	...svelte.configs.recommended,
-	prettier,
-	...svelte.configs.prettier,
-	{
-		languageOptions: {
-			globals: {
-				...globals.browser,
-				...globals.node
-			}
-		}
-	},
-	{
-		files: ['**/*.svelte', '**/*.svelte.js', '**/*.svelte.ts'],
-		languageOptions: {
-			parserOptions: {
-				parser: tseslint.parser
-			}
-		}
-	}
+  {
+    ignores: ['.svelte-kit/**', 'build/**', 'dist/**', 'node_modules/**', 'package/**'],
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...svelte.configs.recommended,
+  prettier,
+  ...svelte.configs.prettier,
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+  },
+  {
+    files: ['**/*.svelte', '**/*.svelte.js', '**/*.svelte.ts'],
+    languageOptions: {
+      parserOptions: {
+        parser: tseslint.parser,
+      },
+    },
+  },
+  {
+    files: ['**/*.d.ts'],
+    rules: {
+      '@typescript-eslint/no-empty-object-type': 'off',
+    },
+  },
+  {
+    files: ['**/*.cjs'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+  {
+    files: ['src/lib/utils/breadcrumb.ts'],
+    rules: {
+      'svelte/no-navigation-without-resolve': 'off',
+    },
+  }
 );
