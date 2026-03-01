@@ -1,4 +1,4 @@
-<script type="ts"> 
+<script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { units, unitLabelToValue, unitValueToLabel } from '$lib/utils/units';
   import type { SolutionType } from "$types/solution.type";

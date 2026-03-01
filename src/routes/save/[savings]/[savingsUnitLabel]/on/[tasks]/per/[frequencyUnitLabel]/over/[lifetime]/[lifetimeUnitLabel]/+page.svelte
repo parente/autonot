@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   import { page } from "$app/stores";
   import Calculator from "$lib/components/Calculator.svelte";
   import { updateBreadcrumb } from "$lib/utils/breadcrumb";
