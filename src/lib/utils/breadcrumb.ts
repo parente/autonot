@@ -7,7 +7,7 @@ export function updateBreadcrumb(solution: SolutionType) {
          `/on/${solution.tasks}/per/${solution.frequencyUnitLabel}` +
          `/over/${solution.lifetime}/${solution.lifetimeUnitLabel}`, {
       replaceState: true,
-      keepfocus: true
+      keepFocus: true
     });
   }
 }
