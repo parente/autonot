@@ -6,20 +6,9 @@ function isPositive(value: number): boolean {
 }
 
 export function calculateMoneyInvestmentLimit(input: MoneyInput): MoneyResult {
-  const costRateUsd = Number(input.costRateUsd);
-  const savingsRateUsd = Number(input.savingsRateUsd);
-  const lifetime = Number(input.lifetime);
-
-  if (!isPositive(lifetime) || !isPositive(costRateUsd) || !isPositive(savingsRateUsd)) {
-    return {
-      investment: null,
-      investmentUnit: 1,
-    };
-  }
-
-  const savingsPerSecond = savingsRateUsd / input.savingsRateUnit;
-  const costPerSecond = costRateUsd / input.costRateUnit;
-  const savingsOverLifetime = lifetime * input.lifetimeUnit * savingsPerSecond;
+  const savingsPerSecond = input.savingsRateUsd / input.savingsRateUnit;
+  const costPerSecond = input.costRateUsd / input.costRateUnit;
+  const savingsOverLifetime = input.lifetime * input.lifetimeUnit * savingsPerSecond;
   const investmentSeconds = savingsOverLifetime / costPerSecond;
 
   if (
@@ -28,15 +17,13 @@ export function calculateMoneyInvestmentLimit(input: MoneyInput): MoneyResult {
     !isPositive(savingsOverLifetime) ||
     !isPositive(investmentSeconds)
   ) {
-    return {
-      investment: null,
-      investmentUnit: 1,
-    };
+    return { kind: 'invalid' };
   }
 
   const { value, unit } = formatDurationFromSeconds(investmentSeconds);
 
   return {
+    kind: 'valid',
     investment: value,
     investmentUnit: unit,
   };

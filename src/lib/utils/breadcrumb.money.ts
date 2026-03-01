@@ -4,7 +4,13 @@ import type { MoneySolutionType } from '$types/solution.type';
 import { buildMoneyPath } from './paths';
 
 export function updateMoneyBreadcrumb(solution: MoneySolutionType) {
-  if (browser && solution.investment) {
+  if (
+    browser &&
+    solution.investment &&
+    solution.costRateUnitLabel &&
+    solution.savingsRateUnitLabel &&
+    solution.lifetimeUnitLabel
+  ) {
     const nextPath = buildMoneyPath(solution);
     if (window.location.pathname === nextPath) {
       return;

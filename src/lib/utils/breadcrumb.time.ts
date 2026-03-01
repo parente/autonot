@@ -4,7 +4,13 @@ import type { TimeSolutionType } from '$types/solution.type';
 import { buildTimePath } from './paths';
 
 export function updateTimeBreadcrumb(solution: TimeSolutionType) {
-  if (browser && solution.investment) {
+  if (
+    browser &&
+    solution.investment &&
+    solution.frequencyUnitLabel &&
+    solution.savingsUnitLabel &&
+    solution.lifetimeUnitLabel
+  ) {
     const nextPath = buildTimePath(solution);
     if (window.location.pathname === nextPath) {
       return;
