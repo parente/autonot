@@ -1,8 +1,9 @@
+import { browser } from '$app/environment';
 import { goto } from '$app/navigation';
 import type { SolutionType } from '$types/solution.type';
 
 export function updateBreadcrumb(solution: SolutionType) {
-  if (solution.investment) {
+  if (browser && solution.investment) {
     goto(
       `/save/${solution.savings}/${solution.savingsUnitLabel}` +
         `/on/${solution.tasks}/per/${solution.frequencyUnitLabel}` +
