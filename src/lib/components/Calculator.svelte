@@ -1,19 +1,17 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import { units, unitLabelToValue, unitValueToLabel } from '$lib/utils/units';
-  import type { SolutionType } from "$types/solution.type";
+  import type { SolutionType } from '$types/solution.type';
 
-  const dispatch = createEventDispatcher();
+  export let onSolve: (solution: SolutionType) => void = () => {};
+  export let tasks: string = '1';
+  export let frequencyUnit: number = unitLabelToValue('week');
+  export let savings: string = '30';
+  export let savingsUnit: number = unitLabelToValue('second');
+  export let lifetime: string = '5';
+  export let lifetimeUnit: number = unitLabelToValue('year');
 
-  export let tasks: string = "1";
-  export let frequencyUnit: number = unitLabelToValue("week");
-  export let savings: string = "30";
-  export let savingsUnit: number = unitLabelToValue("second");
-  export let lifetime: string = "5";
-  export let lifetimeUnit: number = unitLabelToValue("year");
-
-  let investment: string;
-  let investmentUnit: number = unitLabelToValue("hour");;
+  let investment: string | null = null;
+  let investmentUnit: number = unitLabelToValue('hour');
 
   /**
    * Reacts to a change in any form value by computing the optimization investment allowed in order
@@ -44,18 +42,18 @@
         }
       }
 
-      dispatch('solve', <SolutionType>{
-        tasks: tasks,
-        frequencyUnit: frequencyUnit,
-        frequencyUnitLabel: unitValueToLabel("1", frequencyUnit),
-        savings: savings,
-        savingsUnit: savingsUnit,
+      onSolve({
+        tasks,
+        frequencyUnit,
+        frequencyUnitLabel: unitValueToLabel('1', frequencyUnit),
+        savings,
+        savingsUnit,
         savingsUnitLabel: unitValueToLabel(savings, savingsUnit),
-        investment: investment,
-        investmentUnit: investmentUnit,
+        investment,
+        investmentUnit,
         investmentUnitLabel: unitValueToLabel(investment, investmentUnit),
-        lifetime: lifetime,
-        lifetimeUnit: lifetimeUnit,
+        lifetime,
+        lifetimeUnit,
         lifetimeUnitLabel: unitValueToLabel(lifetime, lifetimeUnit),
       });
     }
@@ -89,7 +87,7 @@
       border-0 border-b-2 border-sky-300
       focus:ring-0 focus:border-sky-500
       px-3 py-0">
-      {#each units as unit}
+      {#each units as unit (unit.value)}
         <option value={unit.value} selected={frequencyUnit === unit.value}>{unit.singular}</option>
       {/each}
     </select>.
@@ -107,7 +105,7 @@
       border-0 border-b-2 border-emerald-300
       focus:ring-0 focus:border-emerald-500
       px-3 py-0">
-      {#each units as unit}
+      {#each units as unit (unit.value)}
         <option value={unit.value} selected={savingsUnit === unit.value}>{savings === "1" ? unit.singular : unit.plural}</option>
       {/each}
     </select> each time we perform this task by optimizing it.
@@ -125,7 +123,7 @@
       border-0 border-b-2 border-chrome-300
       focus:ring-0 focus:border-chrome-500
       px-3 py-0">
-      {#each units as unit}
+      {#each units as unit (unit.value)}
         <option value={unit.value} selected={lifetimeUnit === unit.value}>{lifetime === "1" ? unit.singular : unit.plural}</option>
       {/each}
     </select> through time saved performing the task.
