@@ -30,3 +30,24 @@ export function unitLabelToValue(label: string) {
   }
   throw new Error('unexpected unit label');
 }
+
+/** Formats seconds into a human-friendly unit/value pair, preferring the largest unit with value >= 1. */
+export function formatDurationFromSeconds(seconds: number): { value: string; unit: number } {
+  if (!Number.isFinite(seconds) || seconds < 0) {
+    throw new Error('unexpected duration');
+  }
+
+  for (let i = 0; i <= units.length; i++) {
+    if (i === units.length || units[i].value > seconds) {
+      if (i === 0) {
+        return { value: '0.0', unit: 1 };
+      }
+      return {
+        value: (seconds / units[i - 1].value).toFixed(1),
+        unit: units[i - 1].value,
+      };
+    }
+  }
+
+  return { value: '0.0', unit: 1 };
+}

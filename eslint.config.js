@@ -6,7 +6,14 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['.svelte-kit/**', 'build/**', 'dist/**', 'node_modules/**', 'package/**'],
+    ignores: [
+      '.svelte-kit/**',
+      '.tmp-tests/**',
+      'build/**',
+      'dist/**',
+      'node_modules/**',
+      'package/**',
+    ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -42,9 +49,13 @@ export default tseslint.config(
     },
   },
   {
-    files: ['src/lib/utils/breadcrumb.ts'],
+    files: [
+      'src/lib/utils/breadcrumb.ts',
+      'src/lib/utils/breadcrumb.time.ts',
+      'src/lib/utils/breadcrumb.money.ts',
+    ],
     rules: {
-      // Breadcrumb navigation uses a dynamic URL assembled from user inputs rather than a static route id.
+      // Breadcrumb navigation uses dynamic URLs assembled from user inputs rather than static route ids.
       'svelte/no-navigation-without-resolve': 'off',
     },
   }

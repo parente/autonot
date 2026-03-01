@@ -1,17 +1,12 @@
-import { browser } from '$app/environment';
-import { goto } from '$app/navigation';
 import type { SolutionType } from '$types/solution.type';
+import { updateMoneyBreadcrumb } from './breadcrumb.money';
+import { updateTimeBreadcrumb } from './breadcrumb.time';
 
 export function updateBreadcrumb(solution: SolutionType) {
-  if (browser && solution.investment) {
-    goto(
-      `/save/${solution.savings}/${solution.savingsUnitLabel}` +
-        `/on/${solution.tasks}/per/${solution.frequencyUnitLabel}` +
-        `/over/${solution.lifetime}/${solution.lifetimeUnitLabel}`,
-      {
-        replaceState: true,
-        keepFocus: true,
-      }
-    );
+  if (solution.mode === 'time') {
+    updateTimeBreadcrumb(solution);
+    return;
   }
+
+  updateMoneyBreadcrumb(solution);
 }
