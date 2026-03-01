@@ -178,11 +178,10 @@
       px-3 py-0"
       >
         {#each units as unit (unit.value)}
-          <option value={unit.value} selected={frequencyUnit === unit.value}>{unit.singular}</option>
+          <option value={unit.value} selected={frequencyUnit === unit.value}>{unit.singular}</option
+          >
         {/each}
-      </select>.
-
-      We think we can save
+      </select>. We think we can save
       <input
         type="text"
         bind:value={savings}
@@ -204,11 +203,12 @@
       px-3 py-0"
       >
         {#each units as unit (unit.value)}
-          <option value={unit.value} selected={savingsUnit === unit.value}>{savings === '1' ? unit.singular : unit.plural}</option>
+          <option value={unit.value} selected={savingsUnit === unit.value}
+            >{savings === '1' ? unit.singular : unit.plural}</option
+          >
         {/each}
-      </select> each time we perform this task by optimizing it.
-
-      We want to recoup our optimization investment within
+      </select>
+      each time we perform this task by optimizing it. We want to recoup our optimization investment within
       <input
         type="text"
         bind:value={lifetime}
@@ -230,13 +230,16 @@
       px-3 py-0"
       >
         {#each units as unit (unit.value)}
-          <option value={unit.value} selected={lifetimeUnit === unit.value}>{lifetime === '1' ? unit.singular : unit.plural}</option>
+          <option value={unit.value} selected={lifetimeUnit === unit.value}
+            >{lifetime === '1' ? unit.singular : unit.plural}</option
+          >
         {/each}
       </select> through time saved performing the task.
     </p>
 
     <p>
-      To fulfill these criteria, we can spend no more than <strong class="underline decoration-2 decoration-rose-300"
+      To fulfill these criteria, we can spend no more than <strong
+        class="underline decoration-2 decoration-rose-300"
         >{investment ? investment : '???'} {unitValueToLabel(investment, investmentUnit)}</strong
       > optimizing.
     </p>
@@ -268,11 +271,12 @@
       px-3 py-0"
       >
         {#each units as unit (unit.value)}
-          <option value={unit.value} selected={savingsRateUnit === unit.value}>{unit.singular}</option>
+          <option value={unit.value} selected={savingsRateUnit === unit.value}
+            >{unit.singular}</option
+          >
         {/each}
-      </select> by optimizing.
-
-      Resourcing the optimization costs us $
+      </select>
+      by optimizing a workflow. Resourcing the optimization costs us $
       <input
         type="text"
         bind:value={costRateUsd}
@@ -280,8 +284,8 @@
         class="form-input
       w-28
       bg-transparent
-      border-0 border-b-2 border-amber-300
-      focus:ring-0 focus:border-amber-500
+      border-0 border-b-2 border-sky-300
+      focus:ring-0 focus:border-sky-500
       px-3 py-0"
       />
       per
@@ -290,16 +294,15 @@
         class="form-select
       w-28
       bg-transparent
-      border-0 border-b-2 border-amber-300
-      focus:ring-0 focus:border-amber-500
+      border-0 border-b-2 border-sky-300
+      focus:ring-0 focus:border-sky-500
       px-3 py-0"
       >
         {#each units as unit (unit.value)}
           <option value={unit.value} selected={costRateUnit === unit.value}>{unit.singular}</option>
         {/each}
-      </select>.
-
-      We want to recoup our optimization investment within
+      </select>
+      of sustained effort. We want to recoup our optimization investment within
       <input
         type="text"
         bind:value={lifetime}
@@ -321,13 +324,16 @@
       px-3 py-0"
       >
         {#each units as unit (unit.value)}
-          <option value={unit.value} selected={lifetimeUnit === unit.value}>{lifetime === '1' ? unit.singular : unit.plural}</option>
+          <option value={unit.value} selected={lifetimeUnit === unit.value}
+            >{lifetime === '1' ? unit.singular : unit.plural}</option
+          >
         {/each}
-      </select>.
+      </select> of completing it.
     </p>
 
     <p>
-      To fulfill these criteria, we can spend no more than <strong class="underline decoration-2 decoration-rose-300"
+      To fulfill these criteria, we can spend no more than <strong
+        class="underline decoration-2 decoration-rose-300"
         >{investment ? investment : '???'} {unitValueToLabel(investment, investmentUnit)}</strong
       > optimizing.
     </p>
