@@ -42,4 +42,16 @@ describe('Calculator money mode', () => {
       expect(screen.getByText(/\?\?\?/)).toBeTruthy();
     });
   });
+
+  it('has accessible labels on all money mode controls', () => {
+    render(Calculator, { mode: 'money', onSolve: vi.fn() });
+
+    expect(screen.getByLabelText('Calculation mode')).toBeTruthy();
+    expect(screen.getByLabelText('Money saved per period in US dollars')).toBeTruthy();
+    expect(screen.getByLabelText('Unit for money saved per period')).toBeTruthy();
+    expect(screen.getByLabelText('Resourcing cost per period in US dollars')).toBeTruthy();
+    expect(screen.getByLabelText('Unit for resourcing cost per period')).toBeTruthy();
+    expect(screen.getByLabelText('Recoup window length')).toBeTruthy();
+    expect(screen.getByLabelText('Recoup window unit')).toBeTruthy();
+  });
 });
