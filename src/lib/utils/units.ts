@@ -12,7 +12,7 @@ export const units = [
 /** Looks up the label associated with `unitValue` and returns the singular or plural form based
  * on `value`.
  */
-export function unitValueToLabel(value: string, unitValue: number): string {
+export function unitValueToLabel(value: string | null, unitValue: number): string {
   for (let i = 0; i < units.length; i++) {
     if (units[i].value === unitValue) {
       return value === '1' || value === '1.0' ? units[i].singular : units[i].plural;
