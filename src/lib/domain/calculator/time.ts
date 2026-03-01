@@ -1,5 +1,32 @@
-import { units } from '../../utils/units';
+import { getOutputUnitsByBasis } from '../../utils/units';
 import type { TimeInput, TimeResult } from './types';
+
+function formatForBasis(
+  seconds: number,
+  basis: 'calendar' | 'person'
+): { value: string; unit: number } {
+  const units = getOutputUnitsByBasis(basis);
+
+  for (let i = 0; i <= units.length; i++) {
+    if (i === units.length || units[i].valueSeconds > seconds) {
+      if (i === 0) {
+        return {
+          value: '1.0',
+          unit: units[0].valueSeconds,
+        };
+      }
+      return {
+        value: (seconds / units[i - 1].valueSeconds).toFixed(1),
+        unit: units[i - 1].valueSeconds,
+      };
+    }
+  }
+
+  return {
+    value: '1.0',
+    unit: units[0].valueSeconds,
+  };
+}
 
 export function calculateTime(input: TimeInput): TimeResult {
   const limit =
@@ -13,23 +40,14 @@ export function calculateTime(input: TimeInput): TimeResult {
     return { kind: 'invalid' };
   }
 
-  for (let i = 0; i <= units.length; i++) {
-    if (i === units.length || units[i].value > limit) {
-      if (i === 0) {
-        return {
-          kind: 'valid',
-          investment: '1.0',
-          investmentUnit: 1,
-        };
-      }
+  const calendarResult = formatForBasis(limit, 'calendar');
+  const personResult = formatForBasis(limit, 'person');
 
-      return {
-        kind: 'valid',
-        investment: (limit / units[i - 1].value).toFixed(1),
-        investmentUnit: units[i - 1].value,
-      };
-    }
-  }
-
-  return { kind: 'invalid' };
+  return {
+    kind: 'valid',
+    investment: calendarResult.value,
+    investmentUnit: calendarResult.unit,
+    personInvestment: personResult.value,
+    personInvestmentUnit: personResult.unit,
+  };
 }

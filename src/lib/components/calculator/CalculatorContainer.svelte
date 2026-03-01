@@ -35,7 +35,9 @@
   }: CalculatorProps = $props();
 
   let investment = $state<string | null>(null);
-  let investmentUnit = $state(unitLabelToValue('hour'));
+  let investmentUnit = $state(unitLabelToValue('second'));
+  let personInvestment = $state<string | null>(null);
+  let personInvestmentUnit = $state(unitLabelToValue('person-day'));
 
   let tasksInput = $state<HTMLInputElement | null>(null);
   let savingsRateInput = $state<HTMLInputElement | null>(null);
@@ -58,9 +60,13 @@
       if (result.kind === 'valid') {
         investment = result.investment;
         investmentUnit = result.investmentUnit;
+        personInvestment = result.personInvestment;
+        personInvestmentUnit = result.personInvestmentUnit;
       } else {
         investment = null;
-        investmentUnit = 1;
+        investmentUnit = unitLabelToValue('second');
+        personInvestment = null;
+        personInvestmentUnit = unitLabelToValue('person-day');
       }
 
       if (shouldSync) {
@@ -84,9 +90,13 @@
     if (result.kind === 'valid') {
       investment = result.investment;
       investmentUnit = result.investmentUnit;
+      personInvestment = result.personInvestment;
+      personInvestmentUnit = result.personInvestmentUnit;
     } else {
       investment = null;
-      investmentUnit = 1;
+      investmentUnit = unitLabelToValue('second');
+      personInvestment = null;
+      personInvestmentUnit = unitLabelToValue('person-day');
     }
 
     if (shouldSync) {
@@ -156,5 +166,5 @@
     />
   {/if}
 
-  <ResultSummary {investment} {investmentUnit} />
+  <ResultSummary {investment} {investmentUnit} {personInvestment} {personInvestmentUnit} />
 </div>

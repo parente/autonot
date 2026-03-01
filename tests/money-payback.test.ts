@@ -18,6 +18,8 @@ describe('calculateMoneyInvestmentLimit', () => {
     if (result.kind === 'valid') {
       expect(result.investment).toBe('1.5');
       expect(result.investmentUnit).toBe(unitLabelToValue('year'));
+      expect(result.personInvestment).toBe('164.3');
+      expect(result.personInvestmentUnit).toBe(unitLabelToValue('person-sprint'));
     }
   });
 
@@ -35,6 +37,8 @@ describe('calculateMoneyInvestmentLimit', () => {
     if (result.kind === 'valid') {
       expect(result.investment).toBe('1.7');
       expect(result.investmentUnit).toBe(unitLabelToValue('week'));
+      expect(result.personInvestment).toBe('3.6');
+      expect(result.personInvestmentUnit).toBe(unitLabelToValue('person-sprint'));
     }
   });
 
@@ -63,11 +67,14 @@ describe('calculateMoneyInvestmentLimit', () => {
 
     expect(result.kind).toBe('valid');
     if (result.kind === 'valid') {
+      expect(result.investment).toBeTruthy();
       expect(result.investmentUnit).toBe(unitLabelToValue('day'));
+      expect(result.personInvestment).toBeTruthy();
+      expect(result.personInvestmentUnit).toBe(unitLabelToValue('person-day'));
     }
   });
 
-  it('returns invalid when savings equals cost over any period', () => {
+  it('returns invalid when lifetime is zero', () => {
     const result = calculateMoneyInvestmentLimit({
       costRateUsd: 100,
       costRateUnit: unitLabelToValue('hour'),

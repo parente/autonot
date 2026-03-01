@@ -18,6 +18,8 @@ describe('solution mappers', () => {
         kind: 'valid',
         investment: '1.1',
         investmentUnit: unitLabelToValue('day'),
+        personInvestment: '8.2',
+        personInvestmentUnit: unitLabelToValue('person-day'),
       }
     );
 
@@ -58,6 +60,8 @@ describe('solution mappers', () => {
         kind: 'valid',
         investment: '2.3',
         investmentUnit: unitLabelToValue('day'),
+        personInvestment: '1.0',
+        personInvestmentUnit: unitLabelToValue('person-week'),
       }
     );
 
