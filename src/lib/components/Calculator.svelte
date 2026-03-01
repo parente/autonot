@@ -1,17 +1,33 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { units, unitLabelToValue, unitValueToLabel } from '$lib/utils/units';
   import type { SolutionType } from '$types/solution.type';
 
-  export let onSolve: (solution: SolutionType) => void = () => {};
-  export let tasks: string = '1';
-  export let frequencyUnit: number = unitLabelToValue('week');
-  export let savings: string = '30';
-  export let savingsUnit: number = unitLabelToValue('second');
-  export let lifetime: string = '5';
-  export let lifetimeUnit: number = unitLabelToValue('year');
+  type Props = {
+    onSolve?: (solution: SolutionType) => void;
+    tasks?: string;
+    frequencyUnit?: number;
+    savings?: string;
+    savingsUnit?: number;
+    lifetime?: string;
+    lifetimeUnit?: number;
+  };
 
-  let investment: string | null = null;
-  let investmentUnit: number = unitLabelToValue('hour');
+  let {
+    onSolve = () => {},
+    tasks = $bindable('1'),
+    frequencyUnit = $bindable(unitLabelToValue('week')),
+    savings = $bindable('30'),
+    savingsUnit = $bindable(unitLabelToValue('second')),
+    lifetime = $bindable('5'),
+    lifetimeUnit = $bindable(unitLabelToValue('year'))
+  }: Props = $props();
+
+  let investment = $state<string | null>(null);
+  let investmentUnit = $state(unitLabelToValue('hour'));
+  let tasksInput: HTMLInputElement | null = null;
 
   /**
    * Reacts to a change in any form value by computing the optimization investment allowed in order
@@ -21,43 +37,48 @@
    * ------------- | ------------------ | ------- | ------------|
    * frqeuencyUnit |                    | 1 task  |             |
    **/
-  $: {
+  $effect(() => {
     const limit = Number(tasks) / frequencyUnit * Number(lifetime) * lifetimeUnit * Number(savings) * savingsUnit;
     // Invalid value in one of the fields
-    if(isNaN(limit) || !limit) {
+    if (isNaN(limit) || !limit) {
       investment = null;
-    } else {
-      for(let i=0; i <= units.length; i++) {
-        if((i === units.length) || (units[i].value > limit)) {
-          if(i === 0) {
-            // Less than a second savings
-            investment = "1.0";
-            investmentUnit = 1;
-          } else {
-            // Use the largest unit that results in a value > 1
-            investment = (limit / units[i-1].value).toFixed(1);
-            investmentUnit = units[i-1].value;
-          }
-          break;
-        }
-      }
-
-      onSolve({
-        tasks,
-        frequencyUnit,
-        frequencyUnitLabel: unitValueToLabel('1', frequencyUnit),
-        savings,
-        savingsUnit,
-        savingsUnitLabel: unitValueToLabel(savings, savingsUnit),
-        investment,
-        investmentUnit,
-        investmentUnitLabel: unitValueToLabel(investment, investmentUnit),
-        lifetime,
-        lifetimeUnit,
-        lifetimeUnitLabel: unitValueToLabel(lifetime, lifetimeUnit),
-      });
+      return;
     }
-  }
+
+    for (let i = 0; i <= units.length; i++) {
+      if (i === units.length || units[i].value > limit) {
+        if (i === 0) {
+          // Less than a second savings
+          investment = '1.0';
+          investmentUnit = 1;
+        } else {
+          // Use the largest unit that results in a value > 1
+          investment = (limit / units[i - 1].value).toFixed(1);
+          investmentUnit = units[i - 1].value;
+        }
+        break;
+      }
+    }
+
+    onSolve({
+      tasks,
+      frequencyUnit,
+      frequencyUnitLabel: unitValueToLabel('1', frequencyUnit),
+      savings,
+      savingsUnit,
+      savingsUnitLabel: unitValueToLabel(savings, savingsUnit),
+      investment,
+      investmentUnit,
+      investmentUnitLabel: unitValueToLabel(investment, investmentUnit),
+      lifetime,
+      lifetimeUnit,
+      lifetimeUnitLabel: unitValueToLabel(lifetime, lifetimeUnit)
+    });
+  });
+
+  onMount(() => {
+    tasksInput?.focus();
+  });
 </script>
 
 <div class="prose prose-headings:font-medium
@@ -74,7 +95,7 @@
 
   <p>
     We perform a routine task 
-    <input type="text" bind:value={tasks} required autofocus class="form-input 
+    <input type="text" bind:this={tasksInput} bind:value={tasks} required class="form-input 
       w-16
       bg-transparent
       border-0 border-b-2 border-sky-300
