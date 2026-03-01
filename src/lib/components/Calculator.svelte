@@ -139,9 +139,9 @@
   <div class="flex justify-between items-center mb-3">
     <h1 class="mb-0">{calculatorModes[mode].title}</h1>
     <label class="text-sm not-prose">
-      <span class="mr-2">Mode</span>
       <select
         bind:value={mode}
+        aria-label="Calculation mode"
         class="form-select text-sm bg-transparent border-0 border-b-2 border-indigo-300 focus:ring-0 focus:border-indigo-500 pl-3 pr-8 py-0"
       >
         <option value="time">Time</option>
@@ -159,6 +159,7 @@
         type="text"
         bind:this={tasksInput}
         bind:value={tasks}
+        aria-label="Number of times the task is performed"
         required
         class="form-input
       w-16
@@ -170,6 +171,7 @@
       {tasks === '1' ? 'time' : 'times'} every
       <select
         bind:value={frequencyUnit}
+        aria-label="Frequency unit for task repetition"
         class="form-select
       w-28
       bg-transparent
@@ -185,6 +187,7 @@
       <input
         type="text"
         bind:value={savings}
+        aria-label="Time saved per task"
         required
         class="form-input
       w-16
@@ -195,6 +198,7 @@
       />
       <select
         bind:value={savingsUnit}
+        aria-label="Unit for time saved per task"
         class="form-select
       w-28
       bg-transparent
@@ -212,6 +216,7 @@
       <input
         type="text"
         bind:value={lifetime}
+        aria-label="Recoup window length"
         required
         class="form-input
       w-16
@@ -222,6 +227,7 @@
       />
       <select
         bind:value={lifetimeUnit}
+        aria-label="Recoup window unit"
         class="form-select
       w-28
       bg-transparent
@@ -252,6 +258,7 @@
         type="text"
         bind:this={savingsRateInput}
         bind:value={savingsRateUsd}
+        aria-label="Money saved per period in US dollars"
         required
         class="form-input
       w-24
@@ -263,6 +270,7 @@
       per
       <select
         bind:value={savingsRateUnit}
+        aria-label="Unit for money saved per period"
         class="form-select
       w-28
       bg-transparent
@@ -280,6 +288,7 @@
       <input
         type="text"
         bind:value={costRateUsd}
+        aria-label="Resourcing cost per period in US dollars"
         required
         class="form-input
       w-16
@@ -291,6 +300,7 @@
       per
       <select
         bind:value={costRateUnit}
+        aria-label="Unit for resourcing cost per period"
         class="form-select
       w-28
       bg-transparent
@@ -306,6 +316,7 @@
       <input
         type="text"
         bind:value={lifetime}
+        aria-label="Recoup window length"
         required
         class="form-input
       w-16
@@ -316,6 +327,7 @@
       />
       <select
         bind:value={lifetimeUnit}
+        aria-label="Recoup window unit"
         class="form-select
       w-28
       bg-transparent
