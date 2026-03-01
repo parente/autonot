@@ -10,7 +10,7 @@
   export let lifetime: string = '5';
   export let lifetimeUnit: number = unitLabelToValue('year');
 
-  let investment: string;
+  let investment: string | null = null;
   let investmentUnit: number = unitLabelToValue('hour');
 
   /**
@@ -43,17 +43,17 @@
       }
 
       onSolve({
-        tasks: tasks,
-        frequencyUnit: frequencyUnit,
+        tasks,
+        frequencyUnit,
         frequencyUnitLabel: unitValueToLabel('1', frequencyUnit),
-        savings: savings,
-        savingsUnit: savingsUnit,
+        savings,
+        savingsUnit,
         savingsUnitLabel: unitValueToLabel(savings, savingsUnit),
-        investment: investment,
-        investmentUnit: investmentUnit,
+        investment,
+        investmentUnit,
         investmentUnitLabel: unitValueToLabel(investment, investmentUnit),
-        lifetime: lifetime,
-        lifetimeUnit: lifetimeUnit,
+        lifetime,
+        lifetimeUnit,
         lifetimeUnitLabel: unitValueToLabel(lifetime, lifetimeUnit),
       });
     }
