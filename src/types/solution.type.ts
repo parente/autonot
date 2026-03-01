@@ -6,9 +6,9 @@ export type TimeSolutionType = {
   savings: string;
   savingsUnit: number;
   savingsUnitLabel: string;
-  investment: string;
+  investment: string | null;
   investmentUnit: number;
-  investmentUnitLabel: string;
+  investmentUnitLabel: string | null;
   lifetime: string;
   lifetimeUnit: number;
   lifetimeUnitLabel: string;

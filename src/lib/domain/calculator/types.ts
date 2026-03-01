@@ -1,29 +1,32 @@
 export type CalculatorMode = 'time' | 'money';
 
 export type TimeInput = {
-  tasks: string;
+  tasks: number;
   frequencyUnit: number;
-  savings: string;
+  savings: number;
   savingsUnit: number;
-  lifetime: string;
+  lifetime: number;
   lifetimeUnit: number;
-};
-
-export type TimeResult = {
-  investment: string | null;
-  investmentUnit: number;
 };
 
 export type MoneyInput = {
-  costRateUsd: string;
+  costRateUsd: number;
   costRateUnit: number;
-  savingsRateUsd: string;
+  savingsRateUsd: number;
   savingsRateUnit: number;
-  lifetime: string;
+  lifetime: number;
   lifetimeUnit: number;
 };
 
-export type MoneyResult = {
-  investment: string | null;
+export type InvestmentValidResult = {
+  kind: 'valid';
+  investment: string;
   investmentUnit: number;
 };
+
+export type InvestmentInvalidResult = {
+  kind: 'invalid';
+};
+
+export type TimeResult = InvestmentValidResult | InvestmentInvalidResult;
+export type MoneyResult = InvestmentValidResult | InvestmentInvalidResult;
