@@ -8,11 +8,11 @@
 <Calculator
   onSolve={updateBreadcrumb}
   syncOnInit={true}
-  mode="time"
-  tasks={page.params.tasks}
-  frequencyUnit={unitLabelToValue(page.params.frequencyUnitLabel)}
-  savings={page.params.savings}
-  savingsUnit={unitLabelToValue(page.params.savingsUnitLabel)}
+  mode="money"
+  costRateUsd={page.params.costRateUsd}
+  costRateUnit={unitLabelToValue(page.params.costRateUnitLabel)}
+  savingsRateUsd={page.params.savingsRateUsd}
+  savingsRateUnit={unitLabelToValue(page.params.savingsRateUnitLabel)}
   lifetime={page.params.lifetime}
   lifetimeUnit={unitLabelToValue(page.params.lifetimeUnitLabel)}
 />

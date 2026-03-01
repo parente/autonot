@@ -2,157 +2,336 @@
 
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { calculatorModes } from '$lib/config/calculatorModes';
+  import { calculateMoneyInvestmentLimit, calculateTime } from '$lib/domain/calculator';
+  import type { CalculatorMode } from '$lib/domain/calculator';
   import { units, unitLabelToValue, unitValueToLabel } from '$lib/utils/units';
   import type { SolutionType } from '$types/solution.type';
 
   type Props = {
     onSolve?: (solution: SolutionType) => void;
+    syncOnInit?: boolean;
+    mode?: CalculatorMode;
     tasks?: string;
     frequencyUnit?: number;
     savings?: string;
     savingsUnit?: number;
     lifetime?: string;
     lifetimeUnit?: number;
+    costRateUsd?: string;
+    costRateUnit?: number;
+    savingsRateUsd?: string;
+    savingsRateUnit?: number;
   };
 
   let {
     onSolve = () => {},
+    syncOnInit = false,
+    mode = $bindable('time'),
     tasks = $bindable('1'),
     frequencyUnit = $bindable(unitLabelToValue('week')),
     savings = $bindable('30'),
     savingsUnit = $bindable(unitLabelToValue('second')),
     lifetime = $bindable('5'),
-    lifetimeUnit = $bindable(unitLabelToValue('year'))
+    lifetimeUnit = $bindable(unitLabelToValue('year')),
+    costRateUsd = $bindable('100000'),
+    costRateUnit = $bindable(unitLabelToValue('year')),
+    savingsRateUsd = $bindable('25000'),
+    savingsRateUnit = $bindable(unitLabelToValue('year')),
   }: Props = $props();
 
   let investment = $state<string | null>(null);
   let investmentUnit = $state(unitLabelToValue('hour'));
-  let tasksInput: HTMLInputElement | null = null;
 
-  /**
-   * Reacts to a change in any form value by computing the optimization investment allowed in order
-   * to break even in `secondsPerLifetime`.
-   *  
-   * tasks         | secondsPerLifetime | savings | savingsUnit |
-   * ------------- | ------------------ | ------- | ------------|
-   * frqeuencyUnit |                    | 1 task  |             |
-   **/
+  let tasksInput = $state<HTMLInputElement | null>(null);
+  let savingsRateInput = $state<HTMLInputElement | null>(null);
+  let shouldSync = $state(false);
+
   $effect(() => {
-    const limit = Number(tasks) / frequencyUnit * Number(lifetime) * lifetimeUnit * Number(savings) * savingsUnit;
-    // Invalid value in one of the fields
-    if (isNaN(limit) || !limit) {
-      investment = null;
+    if (mode === 'time') {
+      const timeResult = calculateTime({
+        tasks,
+        frequencyUnit,
+        savings,
+        savingsUnit,
+        lifetime,
+        lifetimeUnit,
+      });
+
+      investment = timeResult.investment;
+      investmentUnit = timeResult.investmentUnit;
+
+      if (shouldSync) {
+        onSolve({
+          mode,
+          tasks,
+          frequencyUnit,
+          frequencyUnitLabel: unitValueToLabel('1', frequencyUnit),
+          savings,
+          savingsUnit,
+          savingsUnitLabel: unitValueToLabel(savings, savingsUnit),
+          investment,
+          investmentUnit,
+          investmentUnitLabel: unitValueToLabel(investment, investmentUnit),
+          lifetime,
+          lifetimeUnit,
+          lifetimeUnitLabel: unitValueToLabel(lifetime, lifetimeUnit),
+        });
+      }
       return;
     }
 
-    for (let i = 0; i <= units.length; i++) {
-      if (i === units.length || units[i].value > limit) {
-        if (i === 0) {
-          // Less than a second savings
-          investment = '1.0';
-          investmentUnit = 1;
-        } else {
-          // Use the largest unit that results in a value > 1
-          investment = (limit / units[i - 1].value).toFixed(1);
-          investmentUnit = units[i - 1].value;
-        }
-        break;
-      }
-    }
-
-    onSolve({
-      tasks,
-      frequencyUnit,
-      frequencyUnitLabel: unitValueToLabel('1', frequencyUnit),
-      savings,
-      savingsUnit,
-      savingsUnitLabel: unitValueToLabel(savings, savingsUnit),
-      investment,
-      investmentUnit,
-      investmentUnitLabel: unitValueToLabel(investment, investmentUnit),
+    const moneyResult = calculateMoneyInvestmentLimit({
+      costRateUsd,
+      costRateUnit,
+      savingsRateUsd,
+      savingsRateUnit,
       lifetime,
       lifetimeUnit,
-      lifetimeUnitLabel: unitValueToLabel(lifetime, lifetimeUnit)
     });
+
+    investment = moneyResult.investment;
+    investmentUnit = moneyResult.investmentUnit;
+
+    if (shouldSync) {
+      onSolve({
+        mode,
+        costRateUsd,
+        costRateUnit,
+        costRateUnitLabel: unitValueToLabel('1', costRateUnit),
+        savingsRateUsd,
+        savingsRateUnit,
+        savingsRateUnitLabel: unitValueToLabel('1', savingsRateUnit),
+        lifetime,
+        lifetimeUnit,
+        lifetimeUnitLabel: unitValueToLabel(lifetime, lifetimeUnit),
+        investment,
+        investmentUnit,
+        investmentUnitLabel: investment ? unitValueToLabel(investment, investmentUnit) : null,
+      });
+    }
   });
 
   onMount(() => {
-    tasksInput?.focus();
+    shouldSync = syncOnInit;
+
+    if (mode === 'time') {
+      tasksInput?.focus();
+      return;
+    }
+
+    savingsRateInput?.focus();
   });
 </script>
 
-<div class="prose prose-headings:font-medium
+<div
+  class="prose prose-headings:font-medium
   leading-8
   w-11/12
-  mx-auto 
-  px-8 py-8 
-  rounded 
+  mx-auto
+  px-8 py-8
+  rounded
   bg-chrome-50
-  shadow-xl shadow-chrome-900">
-      
-  <h1 class="mb-1">Is it worth the time?</h1>
+  shadow-xl shadow-chrome-900"
+  oninput={() => (shouldSync = true)}
+  onchange={() => (shouldSync = true)}
+>
+  <div class="flex justify-between items-center mb-3">
+    <h1 class="mb-0">{calculatorModes[mode].title}</h1>
+    <label class="text-sm not-prose">
+      <span class="mr-2">Mode</span>
+      <select
+        bind:value={mode}
+        class="form-select text-sm bg-transparent border-0 border-b-2 border-indigo-300 focus:ring-0 focus:border-indigo-500 pl-3 pr-8 py-0"
+      >
+        <option value="time">Time</option>
+        <option value="money">Money</option>
+      </select>
+    </label>
+  </div>
+
   <small>A calculator based on <a href="https://xkcd.com/1205/">xkcd #1205</a></small>
 
-  <p>
-    We perform a routine task 
-    <input type="text" bind:this={tasksInput} bind:value={tasks} required class="form-input 
+  {#if mode === 'time'}
+    <p>
+      We perform a routine task
+      <input
+        type="text"
+        bind:this={tasksInput}
+        bind:value={tasks}
+        required
+        class="form-input
       w-16
       bg-transparent
       border-0 border-b-2 border-sky-300
       focus:ring-0 focus:border-sky-500
-      px-3 py-0"/> 
-    {tasks === "1" ? "time" : "times"} every
-    <select bind:value={frequencyUnit} class="form-select
+      px-3 py-0"
+      />
+      {tasks === '1' ? 'time' : 'times'} every
+      <select
+        bind:value={frequencyUnit}
+        class="form-select
       w-28
       bg-transparent
       border-0 border-b-2 border-sky-300
       focus:ring-0 focus:border-sky-500
-      px-3 py-0">
-      {#each units as unit (unit.value)}
-        <option value={unit.value} selected={frequencyUnit === unit.value}>{unit.singular}</option>
-      {/each}
-    </select>.
-    
-    We think we can save 
-    <input type="text" bind:value={savings} required class="form-input 
-      w-16
-      bg-transparent
-      border-0 border-b-2 border-emerald-300
-      focus:ring-0 focus:border-emerald-500
-      px-3 py-0" />
-    <select bind:value={savingsUnit} class="form-select
-      w-28
-      bg-transparent
-      border-0 border-b-2 border-emerald-300
-      focus:ring-0 focus:border-emerald-500
-      px-3 py-0">
-      {#each units as unit (unit.value)}
-        <option value={unit.value} selected={savingsUnit === unit.value}>{savings === "1" ? unit.singular : unit.plural}</option>
-      {/each}
-    </select> each time we perform this task by optimizing it.
-    
-    We want to recoup our optimization investment within 
-    <input type="text" bind:value={lifetime} required class="form-input 
-      w-16
-      bg-transparent
-      border-0 border-b-2 border-chrome-300
-      focus:ring-0 focus:border-chrome-500
-      px-3 py-0" />
-    <select bind:value={lifetimeUnit} class="form-select
-      w-28
-      bg-transparent
-      border-0 border-b-2 border-chrome-300
-      focus:ring-0 focus:border-chrome-500
-      px-3 py-0">
-      {#each units as unit (unit.value)}
-        <option value={unit.value} selected={lifetimeUnit === unit.value}>{lifetime === "1" ? unit.singular : unit.plural}</option>
-      {/each}
-    </select> through time saved performing the task.
-  </p>
+      px-3 py-0"
+      >
+        {#each units as unit (unit.value)}
+          <option value={unit.value} selected={frequencyUnit === unit.value}>{unit.singular}</option>
+        {/each}
+      </select>.
 
-  <p>To fulfill these criteria, we can spend no more than <strong
-  class="underline decoration-2 decoration-rose-300">{investment ? investment : '???'}
-  {unitValueToLabel(investment, investmentUnit)}</strong> optimizing.</p>
-  
-  <p>Should we invest our time?</p>
+      We think we can save
+      <input
+        type="text"
+        bind:value={savings}
+        required
+        class="form-input
+      w-16
+      bg-transparent
+      border-0 border-b-2 border-emerald-300
+      focus:ring-0 focus:border-emerald-500
+      px-3 py-0"
+      />
+      <select
+        bind:value={savingsUnit}
+        class="form-select
+      w-28
+      bg-transparent
+      border-0 border-b-2 border-emerald-300
+      focus:ring-0 focus:border-emerald-500
+      px-3 py-0"
+      >
+        {#each units as unit (unit.value)}
+          <option value={unit.value} selected={savingsUnit === unit.value}>{savings === '1' ? unit.singular : unit.plural}</option>
+        {/each}
+      </select> each time we perform this task by optimizing it.
+
+      We want to recoup our optimization investment within
+      <input
+        type="text"
+        bind:value={lifetime}
+        required
+        class="form-input
+      w-16
+      bg-transparent
+      border-0 border-b-2 border-chrome-300
+      focus:ring-0 focus:border-chrome-500
+      px-3 py-0"
+      />
+      <select
+        bind:value={lifetimeUnit}
+        class="form-select
+      w-28
+      bg-transparent
+      border-0 border-b-2 border-chrome-300
+      focus:ring-0 focus:border-chrome-500
+      px-3 py-0"
+      >
+        {#each units as unit (unit.value)}
+          <option value={unit.value} selected={lifetimeUnit === unit.value}>{lifetime === '1' ? unit.singular : unit.plural}</option>
+        {/each}
+      </select> through time saved performing the task.
+    </p>
+
+    <p>
+      To fulfill these criteria, we can spend no more than <strong class="underline decoration-2 decoration-rose-300"
+        >{investment ? investment : '???'} {unitValueToLabel(investment, investmentUnit)}</strong
+      > optimizing.
+    </p>
+
+    <p>Should we invest our time?</p>
+  {:else}
+    <p>
+      We think we can save $
+      <input
+        type="text"
+        bind:this={savingsRateInput}
+        bind:value={savingsRateUsd}
+        required
+        class="form-input
+      w-28
+      bg-transparent
+      border-0 border-b-2 border-emerald-300
+      focus:ring-0 focus:border-emerald-500
+      px-3 py-0"
+      />
+      per
+      <select
+        bind:value={savingsRateUnit}
+        class="form-select
+      w-28
+      bg-transparent
+      border-0 border-b-2 border-emerald-300
+      focus:ring-0 focus:border-emerald-500
+      px-3 py-0"
+      >
+        {#each units as unit (unit.value)}
+          <option value={unit.value} selected={savingsRateUnit === unit.value}>{unit.singular}</option>
+        {/each}
+      </select> by optimizing.
+
+      Resourcing the optimization costs us $
+      <input
+        type="text"
+        bind:value={costRateUsd}
+        required
+        class="form-input
+      w-28
+      bg-transparent
+      border-0 border-b-2 border-amber-300
+      focus:ring-0 focus:border-amber-500
+      px-3 py-0"
+      />
+      per
+      <select
+        bind:value={costRateUnit}
+        class="form-select
+      w-28
+      bg-transparent
+      border-0 border-b-2 border-amber-300
+      focus:ring-0 focus:border-amber-500
+      px-3 py-0"
+      >
+        {#each units as unit (unit.value)}
+          <option value={unit.value} selected={costRateUnit === unit.value}>{unit.singular}</option>
+        {/each}
+      </select>.
+
+      We want to recoup our optimization investment within
+      <input
+        type="text"
+        bind:value={lifetime}
+        required
+        class="form-input
+      w-16
+      bg-transparent
+      border-0 border-b-2 border-chrome-300
+      focus:ring-0 focus:border-chrome-500
+      px-3 py-0"
+      />
+      <select
+        bind:value={lifetimeUnit}
+        class="form-select
+      w-28
+      bg-transparent
+      border-0 border-b-2 border-chrome-300
+      focus:ring-0 focus:border-chrome-500
+      px-3 py-0"
+      >
+        {#each units as unit (unit.value)}
+          <option value={unit.value} selected={lifetimeUnit === unit.value}>{lifetime === '1' ? unit.singular : unit.plural}</option>
+        {/each}
+      </select>.
+    </p>
+
+    <p>
+      To fulfill these criteria, we can spend no more than <strong class="underline decoration-2 decoration-rose-300"
+        >{investment ? investment : '???'} {unitValueToLabel(investment, investmentUnit)}</strong
+      > optimizing.
+    </p>
+
+    <p>Should we invest our time?</p>
+  {/if}
 </div>
