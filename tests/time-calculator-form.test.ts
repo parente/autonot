@@ -19,7 +19,10 @@ describe('Calculator time mode', () => {
     expect(screen.getByText(/We perform a routine task/i)).toBeTruthy();
 
     await waitFor(() => {
-      expect(screen.getByText(/1\.1 days/i)).toBeTruthy();
+      expect(screen.getByText(/Calendar:/i)).toBeTruthy();
+      expect(screen.getByText(/Person:/i)).toBeTruthy();
+      expect(screen.getByText(/1\.1 calendar-days/i)).toBeTruthy();
+      expect(screen.getByText(/3\.3 person-days/i)).toBeTruthy();
     });
   });
 

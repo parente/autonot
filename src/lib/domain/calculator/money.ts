@@ -20,11 +20,14 @@ export function calculateMoneyInvestmentLimit(input: MoneyInput): MoneyResult {
     return { kind: 'invalid' };
   }
 
-  const { value, unit } = formatDurationFromSeconds(investmentSeconds);
+  const calendarResult = formatDurationFromSeconds(investmentSeconds, 'calendar');
+  const personResult = formatDurationFromSeconds(investmentSeconds, 'person');
 
   return {
     kind: 'valid',
-    investment: value,
-    investmentUnit: unit,
+    investment: calendarResult.value,
+    investmentUnit: calendarResult.unit,
+    personInvestment: personResult.value,
+    personInvestmentUnit: personResult.unit,
   };
 }

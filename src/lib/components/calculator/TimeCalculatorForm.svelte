@@ -1,7 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { units } from '$lib/utils/units';
+  import { getInputUnits } from '$lib/utils/units';
 
   type Props = {
     tasks?: string;
@@ -22,6 +22,8 @@
     lifetimeUnit = $bindable(31536000),
     tasksInput = $bindable(null),
   }: Props = $props();
+
+  const inputUnits = getInputUnits();
 </script>
 
 <p>
@@ -50,8 +52,8 @@
       focus:ring-0 focus:border-sky-500
       px-3 py-0"
   >
-    {#each units as unit (unit.value)}
-      <option value={unit.value} selected={frequencyUnit === unit.value}>{unit.singular}</option>
+    {#each inputUnits as unit (unit.key)}
+      <option value={unit.valueSeconds} selected={frequencyUnit === unit.valueSeconds}>{unit.singular}</option>
     {/each}
   </select>. We think we can save
   <input
@@ -76,8 +78,10 @@
       focus:ring-0 focus:border-emerald-500
       px-3 py-0"
   >
-    {#each units as unit (unit.value)}
-      <option value={unit.value} selected={savingsUnit === unit.value}>{savings === '1' ? unit.singular : unit.plural}</option>
+    {#each inputUnits as unit (unit.key)}
+      <option value={unit.valueSeconds} selected={savingsUnit === unit.valueSeconds}
+        >{savings === '1' ? unit.singular : unit.plural}</option
+      >
     {/each}
   </select>
   each time we perform this task by optimizing it. We want to recoup our optimization investment within
@@ -103,8 +107,10 @@
       focus:ring-0 focus:border-chrome-500
       px-3 py-0"
   >
-    {#each units as unit (unit.value)}
-      <option value={unit.value} selected={lifetimeUnit === unit.value}>{lifetime === '1' ? unit.singular : unit.plural}</option>
+    {#each inputUnits as unit (unit.key)}
+      <option value={unit.valueSeconds} selected={lifetimeUnit === unit.valueSeconds}
+        >{lifetime === '1' ? unit.singular : unit.plural}</option
+      >
     {/each}
   </select> through time saved performing the task.
 </p>

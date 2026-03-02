@@ -22,6 +22,8 @@ export type InvestmentValidResult = {
   kind: 'valid';
   investment: string;
   investmentUnit: number;
+  personInvestment: string;
+  personInvestmentUnit: number;
 };
 
 export type InvestmentInvalidResult = {

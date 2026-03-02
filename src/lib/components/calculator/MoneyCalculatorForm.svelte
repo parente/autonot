@@ -1,7 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { units } from '$lib/utils/units';
+  import { getInputUnits } from '$lib/utils/units';
 
   type Props = {
     costRateUsd?: string;
@@ -22,6 +22,8 @@
     lifetimeUnit = $bindable(31536000),
     savingsRateInput = $bindable(null),
   }: Props = $props();
+
+  const inputUnits = getInputUnits();
 </script>
 
 <p>
@@ -50,8 +52,10 @@
       focus:ring-0 focus:border-emerald-500
       px-3 py-0"
   >
-    {#each units as unit (unit.value)}
-      <option value={unit.value} selected={savingsRateUnit === unit.value}>{unit.singular}</option>
+    {#each inputUnits as unit (unit.key)}
+      <option value={unit.valueSeconds} selected={savingsRateUnit === unit.valueSeconds}
+        >{unit.singular}</option
+      >
     {/each}
   </select>
   by optimizing a workflow. Resourcing the optimization costs us $
@@ -61,7 +65,7 @@
     aria-label="Resourcing cost per period in US dollars"
     required
     class="form-input
-      w-16
+      w-20
       bg-transparent
       border-0 border-b-2 border-sky-300
       focus:ring-0 focus:border-sky-500
@@ -78,8 +82,8 @@
       focus:ring-0 focus:border-sky-500
       px-3 py-0"
   >
-    {#each units as unit (unit.value)}
-      <option value={unit.value} selected={costRateUnit === unit.value}>{unit.singular}</option>
+    {#each inputUnits as unit (unit.key)}
+      <option value={unit.valueSeconds} selected={costRateUnit === unit.valueSeconds}>{unit.singular}</option>
     {/each}
   </select>
   of sustained effort. We want to recoup our optimization investment within
@@ -105,8 +109,10 @@
       focus:ring-0 focus:border-chrome-500
       px-3 py-0"
   >
-    {#each units as unit (unit.value)}
-      <option value={unit.value} selected={lifetimeUnit === unit.value}>{lifetime === '1' ? unit.singular : unit.plural}</option>
+    {#each inputUnits as unit (unit.key)}
+      <option value={unit.valueSeconds} selected={lifetimeUnit === unit.valueSeconds}
+        >{lifetime === '1' ? unit.singular : unit.plural}</option
+      >
     {/each}
   </select> of completing it.
 </p>
