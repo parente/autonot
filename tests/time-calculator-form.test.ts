@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/svelte';
 import { describe, expect, it, vi } from 'vitest';
 
-import Calculator from '../src/lib/components/Calculator.svelte';
+import Calculator from '../src/lib/components/calculator/CalculatorContainer.svelte';
 
 describe('Calculator time mode', () => {
   it('renders prose and computes investment output', async () => {

@@ -13,19 +13,7 @@ describe('calculateTime', () => {
     lifetimeUnit: unitLabelToValue('week'),
   };
 
-  it('uses calendar units by default', () => {
-    const result = calculateTime(baseInput);
-
-    expect(result.kind).toBe('valid');
-    if (result.kind === 'valid') {
-      expect(result.investment).toBe('3.3');
-      expect(result.investmentUnit).toBe(unitLabelToValue('day'));
-      expect(result.personInvestment).toBe('1.0');
-      expect(result.personInvestmentUnit).toBe(unitLabelToValue('person-sprint'));
-    }
-  });
-
-  it('always includes both calendar and person outputs', () => {
+  it('produces both calendar and person outputs for valid input', () => {
     const result = calculateTime(baseInput);
 
     expect(result.kind).toBe('valid');

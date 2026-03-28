@@ -1,5 +1,9 @@
+<svelte:options runes={true} />
+
 <script lang="ts">
   import '../app.css';
+
+  let { children } = $props();
 </script>
 
 <svelte:head>
@@ -11,7 +15,7 @@
   justify-center 
   overflow-hidden
   bg-gradient-to-br from-chrome-800 to-chrome-700">
-  <slot />
+  {@render children()}
   <div class="prose prose-a:text-chrome-300 
     mx-auto mt-5
     px-8 py-2 

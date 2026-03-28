@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Calculator from '$lib/components/Calculator.svelte';
+  import CalculatorContainer from '$lib/components/calculator/CalculatorContainer.svelte';
   import { updateBreadcrumb } from '$lib/utils/breadcrumb';
 </script>
 
-<Calculator onSolve={updateBreadcrumb} />
+<CalculatorContainer onSolve={updateBreadcrumb} />

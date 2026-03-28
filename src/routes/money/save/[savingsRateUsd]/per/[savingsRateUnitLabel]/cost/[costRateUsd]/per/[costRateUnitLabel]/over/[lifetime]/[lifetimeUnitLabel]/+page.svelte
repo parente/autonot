@@ -1,11 +1,11 @@
 <script lang="ts">
   import { page } from '$app/state';
-  import Calculator from '$lib/components/Calculator.svelte';
+  import CalculatorContainer from '$lib/components/calculator/CalculatorContainer.svelte';
   import { updateBreadcrumb } from '$lib/utils/breadcrumb';
   import { unitLabelToValue } from '$lib/utils/units';
 </script>
 
-<Calculator
+<CalculatorContainer
   onSolve={updateBreadcrumb}
   syncOnInit={true}
   mode="money"

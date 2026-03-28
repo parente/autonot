@@ -1,8 +1,9 @@
+import { isPositiveFinite } from '../../utils/math';
 import { formatDurationFromSeconds } from '../../utils/units';
 import type { MoneyInput, MoneyResult } from './types';
 
 function isPositive(value: number): boolean {
-  return Number.isFinite(value) && value > 0;
+  return isPositiveFinite(value);
 }
 
 export function calculateMoneyInvestmentLimit(input: MoneyInput): MoneyResult {

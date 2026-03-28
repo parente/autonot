@@ -53,6 +53,7 @@ export default tseslint.config(
       'src/lib/utils/breadcrumb.ts',
       'src/lib/utils/breadcrumb.time.ts',
       'src/lib/utils/breadcrumb.money.ts',
+      'src/lib/utils/navigate.ts',
     ],
     rules: {
       // Breadcrumb navigation uses dynamic URLs assembled from user inputs rather than static route ids.

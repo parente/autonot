@@ -34,73 +34,34 @@
     savingsRateUnit = $bindable(unitLabelToValue('year')),
   }: CalculatorProps = $props();
 
-  let investment = $state<string | null>(null);
-  let investmentUnit = $state(unitLabelToValue('second'));
-  let personInvestment = $state<string | null>(null);
-  let personInvestmentUnit = $state(unitLabelToValue('person-day'));
-
   let tasksInput = $state<HTMLInputElement | null>(null);
   let savingsRateInput = $state<HTMLInputElement | null>(null);
   let shouldSync = $state(false);
 
-  $effect(() => {
+  const computed = $derived.by(() => {
     if (mode === 'time') {
-      const rawInput: TimeFormRaw = {
-        tasks,
-        frequencyUnit,
-        savings,
-        savingsUnit,
-        lifetime,
-        lifetimeUnit,
-      };
-
-      const normalized = normalizeTimeInput(rawInput);
+      const raw: TimeFormRaw = { tasks, frequencyUnit, savings, savingsUnit, lifetime, lifetimeUnit };
+      const normalized = normalizeTimeInput(raw);
       const result = normalized ? calculateTime(normalized) : { kind: 'invalid' as const };
-
-      if (result.kind === 'valid') {
-        investment = result.investment;
-        investmentUnit = result.investmentUnit;
-        personInvestment = result.personInvestment;
-        personInvestmentUnit = result.personInvestmentUnit;
-      } else {
-        investment = null;
-        investmentUnit = unitLabelToValue('second');
-        personInvestment = null;
-        personInvestmentUnit = unitLabelToValue('person-day');
-      }
-
-      if (shouldSync) {
-        onSolve(toTimeSolution(rawInput, result));
-      }
-      return;
+      return { mode: 'time' as const, raw, result };
     }
-
-    const rawInput: MoneyFormRaw = {
-      costRateUsd,
-      costRateUnit,
-      savingsRateUsd,
-      savingsRateUnit,
-      lifetime,
-      lifetimeUnit,
-    };
-
-    const normalized = normalizeMoneyInput(rawInput);
+    const raw: MoneyFormRaw = { costRateUsd, costRateUnit, savingsRateUsd, savingsRateUnit, lifetime, lifetimeUnit };
+    const normalized = normalizeMoneyInput(raw);
     const result = normalized ? calculateMoneyInvestmentLimit(normalized) : { kind: 'invalid' as const };
+    return { mode: 'money' as const, raw, result };
+  });
 
-    if (result.kind === 'valid') {
-      investment = result.investment;
-      investmentUnit = result.investmentUnit;
-      personInvestment = result.personInvestment;
-      personInvestmentUnit = result.personInvestmentUnit;
+  const investment = $derived(computed.result.kind === 'valid' ? computed.result.investment : null);
+  const investmentUnit = $derived(computed.result.kind === 'valid' ? computed.result.investmentUnit : unitLabelToValue('second'));
+  const personInvestment = $derived(computed.result.kind === 'valid' ? computed.result.personInvestment : null);
+  const personInvestmentUnit = $derived(computed.result.kind === 'valid' ? computed.result.personInvestmentUnit : unitLabelToValue('person-day'));
+
+  $effect(() => {
+    if (!shouldSync) return;
+    if (computed.mode === 'time') {
+      onSolve(toTimeSolution(computed.raw, computed.result));
     } else {
-      investment = null;
-      investmentUnit = unitLabelToValue('second');
-      personInvestment = null;
-      personInvestmentUnit = unitLabelToValue('person-day');
-    }
-
-    if (shouldSync) {
-      onSolve(toMoneySolution(rawInput, result));
+      onSolve(toMoneySolution(computed.raw, computed.result));
     }
   });
 
