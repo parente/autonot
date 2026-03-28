@@ -46,7 +46,7 @@ describe('calculateTime', () => {
 
     expect(result.kind).toBe('valid');
     if (result.kind === 'valid') {
-      expect(result.investment).toBe('1.0');
+      expect(result.investment).toBe('0.000010');
       expect(result.investmentUnit).toBe(unitLabelToValue('second'));
     }
   });

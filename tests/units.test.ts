@@ -30,4 +30,17 @@ describe('units helpers', () => {
     expect(result.value).toBe('1.0');
     expect(result.unit).toBe(unitLabelToValue('person-sprint'));
   });
+
+  it('formats sub-person-day durations as fractional person-days', () => {
+    // 1 task/week × 15s × 1 year = 780 seconds = 0.027 person-days
+    const result = formatDurationFromSeconds(780, 'person');
+    expect(result.value).toBe('0.03');
+    expect(result.unit).toBe(unitLabelToValue('person-day'));
+  });
+
+  it('formats zero seconds as 0.0 of the smallest unit', () => {
+    const result = formatDurationFromSeconds(0, 'person');
+    expect(result.value).toBe('0.0');
+    expect(result.unit).toBe(unitLabelToValue('person-day'));
+  });
 });

@@ -132,6 +132,14 @@ export function unitLabelToValue(label: string) {
   throw new Error('unexpected unit label');
 }
 
+/** Formats a value < 1 with enough decimal places to show at least one significant digit. */
+function formatFractional(value: number): string {
+  if (value === 0) return '0.0';
+  if (value >= 0.1) return value.toFixed(1);
+  const leadingZeros = Math.floor(-Math.log10(value));
+  return value.toFixed(leadingZeros + 1);
+}
+
 /** Formats seconds into a human-friendly unit/value pair, preferring the largest unit with value >= 1. */
 export function formatDurationFromSeconds(
   seconds: number,
@@ -146,7 +154,10 @@ export function formatDurationFromSeconds(
   for (let i = 0; i <= outputUnits.length; i++) {
     if (i === outputUnits.length || outputUnits[i].valueSeconds > seconds) {
       if (i === 0) {
-        return { value: '0.0', unit: outputUnits[0].valueSeconds };
+        return {
+          value: formatFractional(seconds / outputUnits[0].valueSeconds),
+          unit: outputUnits[0].valueSeconds,
+        };
       }
       return {
         value: (seconds / outputUnits[i - 1].valueSeconds).toFixed(1),
