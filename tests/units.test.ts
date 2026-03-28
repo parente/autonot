@@ -43,4 +43,16 @@ describe('units helpers', () => {
     expect(result.value).toBe('0.0');
     expect(result.unit).toBe(unitLabelToValue('person-day'));
   });
+
+  it('throws for negative input', () => {
+    expect(() => formatDurationFromSeconds(-1)).toThrow();
+  });
+
+  it('throws for NaN input', () => {
+    expect(() => formatDurationFromSeconds(NaN)).toThrow();
+  });
+
+  it('throws for Infinity input', () => {
+    expect(() => formatDurationFromSeconds(Infinity)).toThrow();
+  });
 });

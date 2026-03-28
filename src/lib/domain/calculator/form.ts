@@ -1,3 +1,4 @@
+import { isPositiveFinite } from '$lib/utils/math';
 import type { MoneyInput, TimeInput } from './types';
 
 export type TimeFormRaw = {
@@ -27,7 +28,7 @@ export function parsePositiveNumber(input: string): number | null {
 }
 
 function isPositiveUnit(value: number): boolean {
-  return Number.isFinite(value) && value > 0;
+  return isPositiveFinite(value);
 }
 
 export function normalizeTimeInput(raw: TimeFormRaw): TimeInput | null {

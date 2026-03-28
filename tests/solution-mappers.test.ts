@@ -70,4 +70,21 @@ describe('solution mappers', () => {
     expect(solution.savingsRateUnitLabel).toBe('year');
     expect(solution.investmentUnitLabel).toBe('days');
   });
+
+  it('maps invalid money result to null investment fields', () => {
+    const solution = toMoneySolution(
+      {
+        costRateUsd: '70',
+        costRateUnit: unitLabelToValue('hour'),
+        savingsRateUsd: '0',
+        savingsRateUnit: unitLabelToValue('year'),
+        lifetime: '1',
+        lifetimeUnit: unitLabelToValue('year'),
+      },
+      { kind: 'invalid' }
+    );
+
+    expect(solution.investment).toBeNull();
+    expect(solution.investmentUnitLabel).toBeNull();
+  });
 });

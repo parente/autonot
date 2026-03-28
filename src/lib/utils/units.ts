@@ -112,24 +112,16 @@ export function getOutputUnitsByBasis(basis: OutputBasis): UnitDefinition[] {
  * on `value`.
  */
 export function unitValueToLabel(value: string | null, unitValue: number): string {
-  for (let i = 0; i < unitDefinitions.length; i++) {
-    if (unitDefinitions[i].valueSeconds === unitValue) {
-      return value === '1' || value === '1.0'
-        ? unitDefinitions[i].singular
-        : unitDefinitions[i].plural;
-    }
-  }
-  throw new Error('unexpected unit value');
+  const def = unitDefinitions.find((u) => u.valueSeconds === unitValue);
+  if (!def) throw new Error(`unexpected unit value: ${unitValue}`);
+  return value === '1' || value === '1.0' ? def.singular : def.plural;
 }
 
 /** Looks up the value in seconds associated with the given singular or plural `label`. **/
-export function unitLabelToValue(label: string) {
-  for (let i = 0; i < unitDefinitions.length; i++) {
-    if (unitDefinitions[i].singular === label || unitDefinitions[i].plural === label) {
-      return unitDefinitions[i].valueSeconds;
-    }
-  }
-  throw new Error('unexpected unit label');
+export function unitLabelToValue(label: string): number {
+  const def = unitDefinitions.find((u) => u.singular === label || u.plural === label);
+  if (!def) throw new Error(`unexpected unit label: ${label}`);
+  return def.valueSeconds;
 }
 
 /** Formats a value < 1 with enough decimal places to show at least one significant digit. */
@@ -166,5 +158,5 @@ export function formatDurationFromSeconds(
     }
   }
 
-  return { value: '0.0', unit: outputUnits[0].valueSeconds };
+  throw new Error('unreachable');
 }

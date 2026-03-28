@@ -1,7 +1,7 @@
 <svelte:options runes={true} />
 
 <script lang="ts">
-  import { unitValueToLabel } from '$lib/utils/units';
+  import { getOutputUnitsByBasis, unitLabelToValue, unitValueToLabel } from '$lib/utils/units';
 
   type Props = {
     investment?: string | null;
@@ -12,16 +12,14 @@
 
   let {
     investment = null,
-    investmentUnit = 1,
+    investmentUnit = unitLabelToValue('second'),
     personInvestment = null,
-    personInvestmentUnit = 28800,
+    personInvestmentUnit = unitLabelToValue('person-day'),
   }: Props = $props();
 
-  const personUnitDefinitions = [
-    'person-day = 8 hours',
-    'person-week = 40 hours',
-    'person-sprint = 80 hours (2 person-weeks)',
-  ];
+  const personUnitDefinitions = getOutputUnitsByBasis('person').map(
+    (u) => `${u.singular} = ${u.valueSeconds / 3600} hours`
+  );
 
   function calendarLabel(value: string | null, unit: number): string {
     return `calendar-${unitValueToLabel(value, unit)}`;
