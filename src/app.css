@@ -1,3 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-chrome-50: #eff1f6;
+  --color-chrome-100: #dee3ed;
+  --color-chrome-200: #bdc6db;
+  --color-chrome-300: #9daac8;
+  --color-chrome-400: #7c8db6;
+  --color-chrome-500: #5d73a5;
+  --color-chrome-600: #495a83;
+  --color-chrome-700: #374462;
+  --color-chrome-800: #242d42;
+  --color-chrome-900: #121721;
+}
