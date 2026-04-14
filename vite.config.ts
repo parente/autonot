@@ -1,5 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { svelteTesting } from '@testing-library/svelte/vite';
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 import type { Plugin } from 'vite';
 
@@ -28,7 +29,7 @@ function sanitizeMalformedRequestUrls(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [sanitizeMalformedRequestUrls(), sveltekit(), svelteTesting()],
+  plugins: [tailwindcss(), sanitizeMalformedRequestUrls(), sveltekit(), svelteTesting()],
   test: {
     environment: 'jsdom',
     include: ['tests/**/*.test.ts'],
