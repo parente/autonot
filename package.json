@@ -15,7 +15,7 @@
     "format": "prettier --ignore-path .gitignore --write ."
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260701.1",
+    "@cloudflare/workers-types": "^5.20260801.1",
     "@eslint/js": "^10.0.1",
     "@sveltejs/adapter-cloudflare": "^7.2.9",
     "@sveltejs/kit": "^2.69.0",
@@ -38,7 +38,8 @@
     "tslib": "^2.3.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.62.1",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.9",
+    "wrangler": "^4.118.0"
   },
   "type": "module"
 }
