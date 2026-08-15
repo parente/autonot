@@ -12,7 +12,7 @@ Attribution 4.0 International License](https://creativecommons.org/licenses/by/4
 
 ## Prerequisites
 
-- Node.js 22 (`.nvmrc` and `package.json#engines` are pinned to `>=22 <23`)
+- Node.js (see `.nvmrc` and `package.json#engines` for version)
 - npm
 
 ## Local Development
