@@ -2,7 +2,3 @@ name = "autonot"
 compatibility_date = "2026-04-21"
 main = ".svelte-kit/cloudflare/_worker.js"
 pages_build_output_dir = ".svelte-kit/cloudflare"
-
-[assets]
-directory = ".svelte-kit/cloudflare"
-binding = "ASSETS"
