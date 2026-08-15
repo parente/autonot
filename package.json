@@ -2,7 +2,7 @@
   "name": "autonot",
   "version": "0.1.0",
   "engines": {
-    "node": ">=24 <25"
+    "node": ">=26 <27"
   },
   "scripts": {
     "dev": "vite dev",
