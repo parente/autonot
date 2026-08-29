@@ -15,7 +15,7 @@
     "format": "prettier --ignore-path .gitignore --write ."
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^5.20260819.1",
+    "@cloudflare/workers-types": "^5.20260826.1",
     "@eslint/js": "^10.0.1",
     "@sveltejs/adapter-cloudflare": "^7.2.9",
     "@sveltejs/kit": "^2.70.3",
@@ -24,7 +24,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/svelte": "^5.4.2",
     "autoprefixer": "^10.5.4",
-    "eslint": "^10.8.1",
+    "eslint": "^10.9.1",
     "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-svelte": "^3.23.0",
     "globals": "^17.11.0",
@@ -32,14 +32,14 @@
     "postcss": "^8.5.26",
     "prettier": "^3.9.6",
     "prettier-plugin-svelte": "^4.1.1",
-    "svelte": "^5.56.9",
+    "svelte": "^5.56.10",
     "svelte-check": "^4.7.6",
     "tailwindcss": "^4.2.2",
     "tslib": "^2.3.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.67.0",
+    "typescript-eslint": "^8.68.0",
     "vitest": "^4.1.11",
-    "wrangler": "^4.124.0"
+    "wrangler": "^4.126.0"
   },
   "type": "module"
 }
