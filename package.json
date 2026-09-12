@@ -15,7 +15,7 @@
     "format": "prettier --ignore-path .gitignore --write ."
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^5.20260902.1",
+    "@cloudflare/workers-types": "^5.20260908.1",
     "@eslint/js": "^10.0.1",
     "@sveltejs/adapter-cloudflare": "^7.2.9",
     "@sveltejs/kit": "^2.70.3",
@@ -23,13 +23,13 @@
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/svelte": "^5.4.2",
-    "autoprefixer": "^10.5.4",
-    "eslint": "^10.9.1",
+    "autoprefixer": "^10.5.5",
+    "eslint": "^10.10.0",
     "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-svelte": "^3.23.0",
     "globals": "^17.12.0",
     "jsdom": "^30.0.1",
-    "postcss": "^8.5.26",
+    "postcss": "^8.5.28",
     "prettier": "^3.9.6",
     "prettier-plugin-svelte": "^4.1.1",
     "svelte": "^5.57.0",
@@ -37,9 +37,9 @@
     "tailwindcss": "^4.2.2",
     "tslib": "^2.3.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.69.0",
-    "vitest": "^4.1.11",
-    "wrangler": "^4.128.0"
+    "typescript-eslint": "^8.70.0",
+    "vitest": "^5.0.0",
+    "wrangler": "^4.130.0"
   },
   "type": "module"
 }
