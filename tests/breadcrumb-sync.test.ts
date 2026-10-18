@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const { goto } = vi.hoisted(() => ({ goto: vi.fn() }));
 
-vi.mock('$app/environment', () => ({
+vi.mock('$app/env', () => ({
   browser: true,
 }));
 
@@ -60,7 +60,10 @@ describe('breadcrumb sync guards', () => {
     });
 
     expect(goto).toHaveBeenCalledTimes(1);
-    expect(goto.mock.calls[0]?.[0]).toBe('/money/save/25000/per/year/cost/70/per/hour/over/1/year');
+    expect(goto).toHaveBeenCalledWith('/money/save/25000/per/year/cost/70/per/hour/over/1/year', {
+      replace: true,
+      reset: false,
+    });
   });
 
   it('does not navigate for invalid (null) investment', () => {
