@@ -1,4 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import adapter from '@sveltejs/adapter-cloudflare';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { svelteTesting } from '@testing-library/svelte/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
@@ -29,7 +31,19 @@ function sanitizeMalformedRequestUrls(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [tailwindcss(), sanitizeMalformedRequestUrls(), sveltekit(), svelteTesting()],
+  plugins: [
+    tailwindcss(),
+    sanitizeMalformedRequestUrls(),
+    sveltekit({
+      preprocess: vitePreprocess(),
+      adapter: adapter(),
+      alias: {
+        $types: 'src/types',
+        $lib: 'src/lib',
+      },
+    }),
+    svelteTesting(),
+  ],
   test: {
     environment: 'jsdom',
     include: ['tests/**/*.test.ts'],
